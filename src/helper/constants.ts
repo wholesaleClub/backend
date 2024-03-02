@@ -5,6 +5,7 @@ export const constants = {
     DATABASE_CONNECTION: 'DATABASE_CONNECTION',
     USER_MODEL: 'USER_MODEL',
     PRODUCT_MODEL: 'PRODUCT_MODEL',
+    ROLE_MODEL: 'ROLE_MODEL',
     db_url: process.env.DB_BASE_URL,
     user_type: ['wholeseller', 'retailer'],
     categories: [
