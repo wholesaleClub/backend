@@ -13,12 +13,17 @@ export const userSchema = new mongoose.Schema<User>(
         },
         first_name: String,
         last_name: String,
-        dukan_name: { type: String, index: true },
-        user_type: { type: String, enum: constants.user_type },
+        role_id: {
+            type: mongoose.Schema.Types.ObjectId,
+            index: true,
+            required: true,
+        },
+        role_name: String,
         address: String,
         pin_code: String,
         city: String,
-        upi_ids: [String],
+        current_company: String,
+        cvs: [String],
     },
     { timestamps: true }
 );
