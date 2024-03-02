@@ -1,0 +1,31 @@
+import * as dotenv from 'dotenv';
+dotenv.config();
+export const constants = {
+    port: process.env.PORT,
+    DATABASE_CONNECTION: 'DATABASE_CONNECTION',
+    USER_MODEL: 'USER_MODEL',
+    PRODUCT_MODEL: 'PRODUCT_MODEL',
+    db_url: process.env.DB_BASE_URL,
+    user_type: ['wholeseller', 'retailer'],
+    categories: [
+        'Atta, Rice & Dal',
+        'Spices, Salt & Sugar',
+        'Oil & Ghee',
+        'Dry Fruits, Nuts & Seeds',
+        'Snacks & Packaged Foods',
+        'Noodles & Pasta',
+        'Brvarages',
+        'Detergents & Laundry',
+        'Body & Skincre',
+        'Hair Care',
+        `Women's Hygine & Baby Care`,
+        'Oral Care',
+        'Home & Kitchen',
+        'Household & Cleaning',
+    ],
+    order_status: ['placed', 'packed', 'out_for_delivery', 'delevired'],
+    payment_type: ['cash_on_delivery', 'upi'],
+    secret: 'rdt_IRtz_RLodf0-xCmr',
+    jwt_secret_key: process.env.JWT_SECRET_KEY,
+    JWT: 'JWT',
+};
