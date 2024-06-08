@@ -18,8 +18,8 @@ export const cartSchema = new mongoose.Schema({
         )(),
     },
     status: constants.order_status,
-    wholeseller_id: mongoose.Schema.Types.ObjectId,
-    retailer_id: mongoose.Schema.Types.ObjectId,
+    buyer_id: mongoose.Schema.Types.ObjectId,
+    seller_id: mongoose.Schema.Types.ObjectId,
     estimated_date: Date,
     payment_type: { type: String, enum: constants.payment_type },
 });
