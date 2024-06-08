@@ -11,51 +11,18 @@ import {
 import { userType } from '../enums/user.enum';
 
 export class userSignUpDto {
-    @IsString()
-    @IsPhoneNumber()
-    @IsNotEmpty()
-    phone_number: string;
-
     @IsEmail()
     @IsNotEmpty()
     @IsString()
     email: string;
 
-    @IsOptional()
-    @IsString()
-    otp_token: string;
-
-    @IsString()
-    first_name: string;
-
-    @IsOptional()
-    @IsString()
-    last_name: string;
-
-    @IsString()
     @IsNotEmpty()
-    dukan_name: string;
+    @IsString()
+    password: string;
 
     @IsNotEmpty()
     @IsString()
-    @IsEnum(userType)
-    user_type: string;
-
-    @IsNotEmpty()
-    @IsString()
-    address: string;
-
-    @IsNotEmpty()
-    @IsString()
-    pin_code: string;
-
-    @IsNotEmpty()
-    @IsString()
-    city: string;
-
-    @IsArray()
-    @IsString({ each: true })
-    upi_ids: [string];
+    full_name: string;
 }
 
 export class LoginUserDto {

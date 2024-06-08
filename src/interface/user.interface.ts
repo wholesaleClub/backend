@@ -3,16 +3,11 @@ import mongoose, { Document } from 'mongoose';
 export interface User extends Document {
     readonly phone_number: string;
     readonly email: string;
-    readonly otp_token?: string;
-    readonly first_name: string;
-    readonly last_name?: string;
-    readonly role_id: mongoose.Schema.Types.ObjectId;
-    readonly role_name: string;
-    readonly address: string;
-    readonly pin_code: string;
-    readonly city: string;
+    readonly full_name: string;
     readonly current_company: string;
     readonly cvs: string[];
+    readonly is_community_owner: boolean;
+    readonly password: string;
 }
 
 export interface loginUser extends User {

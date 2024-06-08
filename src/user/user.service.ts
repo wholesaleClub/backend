@@ -5,6 +5,7 @@ import { LoginUserDto, userSignUpDto } from '../dto/userDto';
 import { constants } from '../helper/constants';
 import { LoggerService } from '../logger/logger.service';
 import { JwtService } from '@nestjs/jwt';
+import { PasswordService } from '../services/password.service';
 
 @Injectable()
 export class UserService {
@@ -13,20 +14,44 @@ export class UserService {
         @Inject(constants.USER_MODEL)
         private userModel: mongoose.Model<User>,
         private logger: LoggerService,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+        private passwordService: PasswordService
     ) {}
 
     async userSignUp(signUpUser: userSignUpDto): Promise<User> {
         this.logger.log(
-            `userSignUp started with phone number - ${signUpUser?.phone_number}`,
+            `userSignUp started with email - ${signUpUser?.email}`,
             `${this.AppName}`
         );
         try {
+            const user = await this.userModel
+                .findOne({
+                    email: signUpUser.email,
+                })
+                .lean()
+                .exec();
+            if (user) {
+                this.logger.error(
+                    `User allready found for this email - ${signUpUser.email}`,
+                    `${this.AppName}`
+                );
+                throw new HttpException(
+                    {
+                        status: HttpStatus.BAD_REQUEST,
+                        message: 'User found for this email',
+                    },
+                    HttpStatus.BAD_REQUEST
+                );
+            }
+            const hashedPassword = await this.passwordService.hashPassword(
+                signUpUser.password
+            );
+            signUpUser.password = hashedPassword;
             const createUser = new this.userModel(signUpUser);
             return await createUser.save();
         } catch (err) {
             this.logger.error(
-                `userSignUp failed with phone number - ${signUpUser?.phone_number} with error ${err}`,
+                `userSignUp failed with email - ${signUpUser?.email} with error ${err}`,
                 `${this.AppName}`
             );
             throw new HttpException(
@@ -52,7 +77,7 @@ export class UserService {
                 .lean()
                 .exec();
             if (user) {
-                if (user?.otp_token === loginUserDto?.otp_token) {
+                if (user?.password === loginUserDto?.otp_token) {
                     this.logger.log(
                         `userLogin success with phone number - ${loginUserDto?.phone_number}`,
                         `${this.AppName}`

@@ -16,6 +16,7 @@ import { LoginUserDto, userSignUpDto } from 'src/dto/userDto';
 import { constants } from '../helper/constants';
 import { LoggerService } from '../logger/logger.service';
 import { AuthGuard } from '../guards/auth.guard';
+import { ResponseMessage } from '../decorators/responseMessageDecator';
 
 @Controller('user')
 export class UserController {
@@ -27,12 +28,13 @@ export class UserController {
 
     @HttpCode(201)
     @Post('/signup')
+    @ResponseMessage('User Created Successfully')
     async signupUser(
         @Body() signUpUser: userSignUpDto,
         @Headers('secret') headers
     ): Promise<User> {
         this.logger.log(
-            `signupUser started with phone number - ${signUpUser?.phone_number}`,
+            `signupUser started with email - ${signUpUser?.email}`,
             `${this.AppName}`
         );
         if (headers !== constants?.secret) {

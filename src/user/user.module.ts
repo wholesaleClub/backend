@@ -8,6 +8,7 @@ import { UserService } from './user.service';
 import { User } from '../interface/user.interface';
 import { LoggerModule } from 'src/logger/logger.module';
 import { JwtModule } from '@nestjs/jwt';
+import { PasswordService } from 'src/services/password.service';
 
 @Module({
     imports: [
@@ -28,6 +29,7 @@ import { JwtModule } from '@nestjs/jwt';
             inject: [constants.DATABASE_CONNECTION],
         },
         UserService,
+        PasswordService,
     ],
     exports: [UserService],
 })
