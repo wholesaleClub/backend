@@ -55,9 +55,10 @@ export class UserController {
 
     @HttpCode(200)
     @Post('/login')
+    @ResponseMessage('Login successfull')
     async loginUser(@Body() loginuserDto: LoginUserDto): Promise<loginUser> {
         this.logger.log(
-            `loginUser started with phone number - ${loginuserDto?.phone_number}`,
+            `loginUser started with email - ${loginuserDto?.email}`,
             `${this.AppName}`
         );
         return await this.userService.userLogin(loginuserDto);
@@ -66,10 +67,11 @@ export class UserController {
     @HttpCode(200)
     @UseGuards(AuthGuard)
     @Get('profile')
+    @ResponseMessage('Fetched profile successfully')
     async getProfile(@Req() req): Promise<User> {
         const userId = req?.user?.userId;
         this.logger.log(
-            `getProfile started with phone number - ${userId}`,
+            `getProfile started with userId - ${userId}`,
             `${this.AppName}`
         );
         return await this.userService.getUserDetails(userId);

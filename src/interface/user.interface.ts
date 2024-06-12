@@ -8,6 +8,8 @@ export interface User extends Document {
     readonly cvs: string[];
     readonly is_community_owner: boolean;
     readonly password: string;
+    readonly city: string;
+    readonly current_role: string;
 }
 
 export interface loginUser extends User {

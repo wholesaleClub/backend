@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import { currentRole } from 'src/enums/user.enum';
 import { User } from '../interface/user.interface';
 
 export const userSchema = new mongoose.Schema<User>(
@@ -13,6 +14,11 @@ export const userSchema = new mongoose.Schema<User>(
         password: String,
         current_company: String,
         cvs: [String],
+        city: String,
+        current_role: {
+            type: String,
+            enum: currentRole,
+        },
     },
     { timestamps: true }
 );

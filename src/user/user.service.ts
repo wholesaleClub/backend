@@ -66,20 +66,25 @@ export class UserService {
 
     async userLogin(loginUserDto: LoginUserDto): Promise<loginUser> {
         this.logger.log(
-            `userLogin started with phone number - ${loginUserDto?.phone_number}`,
+            `userLogin started with email - ${loginUserDto?.email}`,
             `${this.AppName}`
         );
         try {
             const user: User = await this.userModel
                 .findOne({
-                    phone_number: loginUserDto?.phone_number,
+                    email: loginUserDto?.email,
                 })
                 .lean()
                 .exec();
             if (user) {
-                if (user?.password === loginUserDto?.otp_token) {
+                const passwordMatched =
+                    await this.passwordService.comparePassword(
+                        loginUserDto.password,
+                        user?.password
+                    );
+                if (passwordMatched) {
                     this.logger.log(
-                        `userLogin success with phone number - ${loginUserDto?.phone_number}`,
+                        `userLogin success with email - ${loginUserDto?.email}`,
                         `${this.AppName}`
                     );
                     const payload = {
@@ -97,7 +102,7 @@ export class UserService {
                     throw new HttpException(
                         {
                             status: HttpStatus.BAD_REQUEST,
-                            message: 'Please provide valid otp',
+                            message: 'Please provide valid password',
                         },
                         HttpStatus.BAD_REQUEST
                     );
@@ -114,7 +119,7 @@ export class UserService {
             }
         } catch (err) {
             this.logger.error(
-                `loginUser failed with phone number - ${loginUserDto?.phone_number} with error ${err}`,
+                `loginUser failed with email - ${loginUserDto?.email} with error ${err}`,
                 `${this.AppName}`
             );
             throw new HttpException(
